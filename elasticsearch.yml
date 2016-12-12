@@ -1,0 +1,11 @@
+cluster.name : 
+node.name : master_node_01
+node.master : true
+node.data : true
+path.data : /var/lib/elasticsearch_master_node_01
+path.logs : /var/log/elasticsearch_master_node_01
+network.host : 0.0.0.0
+http.port : 9200
+bootstrap.memory_lock : true
+discovery.zen.ping.unicast.hosts: [, , ]
+discovery.zen.minimum_master_nodes: 
