@@ -4,7 +4,7 @@
 ## Install elasticsearch
 
 ```
-sudo sh sh install-elasticsearch.sh
+sudo sh install-elasticsearch.sh
 ```
 
 ## Create some environmental variable
