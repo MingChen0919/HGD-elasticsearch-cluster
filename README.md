@@ -75,3 +75,10 @@ master.node = false
 data.node = true
 ```
 
+## Start elasticsearch from each of the 5 jetstream instance
+
+```
+sudo service elasticsearch start
+```
+
+
