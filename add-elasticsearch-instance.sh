@@ -1,19 +1,20 @@
 #!/bin/bash
 
 ## ==== Usage example: create 2 clusters, each has 3 nodes === ========
-## add-elasticsearch-instance HGD-cluster-1 HGD-cluster-1-node-1 9201 2
-## add-elasticsearch-instance HGD-cluster-1 HGD-cluster-1-node-2 9202 2
-## add-elasticsearch-instance HGD-cluster-1 HGD-cluster-1-node-3 9203 2 
+## add-elasticsearch-instance.sh HGD-cluster-1 HGD-cluster-1-node-1 9201 2
+## add-elasticsearch-instance.sh HGD-cluster-1 HGD-cluster-1-node-2 9202 2
+## add-elasticsearch-instance.sh HGD-cluster-1 HGD-cluster-1-node-3 9203 2 
 
-## add-elasticsearch-instance HGD-cluster-2 HGD-cluster-2-node-1 9204 2
-## add-elasticsearch-instance HGD-cluster-2 HGD-cluster-2-node-2 9205 2
-## add-elasticsearch-instance HGD-cluster-2 HGD-cluster-2-node-3 9206 2
+## add-elasticsearch-instance.sh HGD-cluster-2 HGD-cluster-2-node-1 9204 2
+## add-elasticsearch-instance.sh HGD-cluster-2 HGD-cluster-2-node-2 9205 2
+## add-elasticsearch-instance.sh HGD-cluster-2 HGD-cluster-2-node-3 9206 2
 ## ====================================================================
 
 CLUSTER_NAME=$1
 NODE_NAME=$2
 PORT=$3
 MINIMUM_MASTER_NODES=$4
+ES_HEAP_SIZE=2g
 
 ## make a copy of init script of elasticsearch
 cp -r /etc/init.d/elasticsearch "/etc/init.d/elasticsearch_${NODE_NAME}"
@@ -27,6 +28,7 @@ cp -r /etc/elasticsearch "/etc/elasticsearch_${NODE_NAME}" && chown -R elasticse
 cp -r /var/run/elasticsearch "/var/run/elasticsearch_${NODE_NAME}" && chown -R elasticsearch:elasticsearch "/var/run/elasticsearch_${NODE_NAME}"
 
 ## associate the copy of init script of elasticsearch with the new log, data, configure and pid path
+sed  -i "s|export ES_HEAP_SIZE|export ES_HEAP_SIZE=${ES_HEAP_SIZE}|g" "/etc/init.d/elasticsearch_${NODE_NAME}"
 sed  -i "s|LOG_DIR=\"/var/log/elasticsearch\"|LOG_DIR=\"/var/log/elasticsearch_${NODE_NAME}\"|g" "/etc/init.d/elasticsearch_${NODE_NAME}" 
 sed  -i "s|DATA_DIR=\"/var/lib/elasticsearch\"|DATA_DIR=\"/var/lib/elasticsearch_${NODE_NAME}\"|g" "/etc/init.d/elasticsearch_${NODE_NAME}"
 sed  -i "s|CONF_DIR=\"/etc/elasticsearch\"|CONF_DIR=\"/etc/elasticsearch_${NODE_NAME}\"|g" "/etc/init.d/elasticsearch_${NODE_NAME}"
